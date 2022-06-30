@@ -1,0 +1,35 @@
+name: Release A
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'a/**'
+  workflow_dispatch:
+    inputs:
+      draft:
+        default: 'false'
+        description: 'Is this a draft release?'
+        required: false
+      prerelease:
+        default: 'false'
+        description: 'Is this a prerelease?'
+        required: false
+
+jobs:
+  release-a:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create release
+      id: create-release
+      run: node .github/actions/create-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SERVICE_NAME: "@monorepo/a"
+      with:
+        draft: ${{ github.event.inputs.draft || false }}
+        prerelease: ${{ github.event.inputs.prerelease || false }}

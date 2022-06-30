@@ -1,0 +1,17 @@
+name: 'Create Release'
+
+description: 'Create release'
+
+inputs:
+  draft:
+    default: 'false'
+    description: 'Is this a draft release?'
+    required: false
+  prerelease:
+    default: 'false'
+    description: 'Is this a prerelease?'
+    required: false
+
+runs:
+  main: 'dist/index.js'
+  using: 'node16'
