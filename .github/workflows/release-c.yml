@@ -30,7 +30,7 @@ jobs:
 
     - name: Create release
       id: create-release
-      uses: .github/actions/create-release
+      uses: ./.github/actions/create-release
       with:
         draft: ${{ github.event.inputs.draft || false }}
         prerelease: ${{ github.event.inputs.prerelease || false }}
