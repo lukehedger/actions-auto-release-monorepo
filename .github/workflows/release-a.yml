@@ -17,6 +17,10 @@ on:
         description: 'Is this a prerelease?'
         required: false
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SERVICE_NAME: "@monorepo/a"
+
 jobs:
   release-a:
     runs-on: ubuntu-20.04
@@ -26,10 +30,7 @@ jobs:
 
     - name: Create release
       id: create-release
-      run: node .github/actions/create-release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SERVICE_NAME: "@monorepo/a"
+      uses: .github/actions/create-release
       with:
         draft: ${{ github.event.inputs.draft || false }}
         prerelease: ${{ github.event.inputs.prerelease || false }}
