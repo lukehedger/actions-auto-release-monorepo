@@ -1,6 +1,6 @@
-const { setFailed } = require("@actions/core");
+import { setFailed } from "@actions/core";
 import { context } from "@actions/github";
-const { Octokit } = require("@octokit/action");
+import { Octokit } from "@octokit/action";
 
 const octokit = new Octokit();
 
