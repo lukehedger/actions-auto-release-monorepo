@@ -16,9 +16,9 @@ const createRelease = async () => {
       draft: process.env.INPUT_DRAFT === "true",
       generate_release_notes: false,
       name: process.env.NAME,
-      owner: "lego-shop",
+      owner: "lukehedger",
       prerelease: process.env.INPUT_PRERELEASE === "true",
-      repo: "brickbank",
+      repo: "actions-auto-release-monorepo",
       tag_name: tagName,
       target_commitish: "main",
     });
