@@ -2,7 +2,9 @@ import { setFailed } from "@actions/core";
 import { context } from "@actions/github";
 import { Octokit } from "@octokit/core";
 
-const octokit = new Octokit();
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
 
 const createRelease = async () => {
   try {
