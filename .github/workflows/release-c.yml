@@ -1,11 +1,11 @@
 name: Release C
 
 on:
-  push:
-    branches:
-    - main
-    paths:
-    - 'c/**'
+  # push:
+  #   branches:
+  #   - main
+  #   paths:
+  #   - 'c/**'
   workflow_dispatch:
     inputs:
       draft:
