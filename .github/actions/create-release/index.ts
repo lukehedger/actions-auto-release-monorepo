@@ -10,8 +10,10 @@ const createRelease = async () => {
   try {
     const body = "testing";
 
+    const shortSha = context.sha.substring(0, 7);
+
     // TODO: Would be good to get service name from package.json[name]
-    const tagName = `${process.env.SERVICE_NAME}-${context.sha}`;
+    const tagName = `${process.env.SERVICE_NAME}-${shortSha}`;
 
     await octokit.request("POST /repos/{owner}/{repo}/releases", {
       body: body,
