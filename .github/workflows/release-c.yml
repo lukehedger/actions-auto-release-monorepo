@@ -1,11 +1,11 @@
 name: Release C
 
 on:
-  # push:
-  #   branches:
-  #   - main
-  #   paths:
-  #   - 'c/**'
+  push:
+    branches:
+    - main
+    paths:
+    - 'c/**'
   workflow_dispatch:
     inputs:
       draft:
@@ -20,6 +20,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SERVICE_NAME: "@monorepo/c"
+  SERVICE_PATH: "c/"
 
 jobs:
   release-c:
