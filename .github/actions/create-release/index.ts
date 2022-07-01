@@ -23,6 +23,8 @@ const createRelease = async () => {
       target_commitish: "main",
     });
   } catch (error) {
+    console.log(error);
+
     return setFailed(error);
   }
 };
