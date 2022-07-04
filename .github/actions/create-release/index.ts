@@ -77,7 +77,7 @@ const createRelease = async () => {
       body: releaseBody,
       draft: process.env.INPUT_DRAFT === "true",
       generate_release_notes: false,
-      name: process.env.NAME,
+      name: tagName,
       owner: "lukehedger",
       prerelease: process.env.INPUT_PRERELEASE === "true",
       repo: "actions-auto-release-monorepo",
