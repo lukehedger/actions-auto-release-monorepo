@@ -27,45 +27,47 @@ const createRelease = async () => {
         );
       });
 
-    let releaseBody: string;
+    const { data: commits } = await octokit.request(
+      "GET /repos/{owner}/{repo}/commits",
+      {
+        owner: "lukehedger",
+        path: process.env.SERVICE_PATH,
+        per_page: 100,
+        repo: "actions-auto-release-monorepo",
+        sha: "refs/heads/main",
+      }
+    );
+
+    const orderedCommits = commits.sort((commitA, commitB) => {
+      return (
+        new Date(commitB.commit.committer.date).getTime() -
+        new Date(commitA.commit.committer.date).getTime()
+      );
+    });
+
+    const getCommitSummary = (commit) => {
+      return `* ${commit.sha.substring(0, 7)} ${commit.commit.message}`;
+    };
+
+    let releaseCommits = [];
 
     if (typeof previousRelease !== "undefined") {
       const [, previousReleaseSha] = previousRelease.tag_name.match(/-(.*)/);
-
-      const { data: commits } = await octokit.request(
-        "GET /repos/{owner}/{repo}/commits",
-        {
-          owner: "lukehedger",
-          path: process.env.SERVICE_PATH,
-          per_page: 100,
-          repo: "actions-auto-release-monorepo",
-          sha: "refs/heads/main",
-        }
-      );
-
-      const orderedCommits = commits.sort((commitA, commitB) => {
-        return (
-          new Date(commitB.commit.committer.date).getTime() -
-          new Date(commitA.commit.committer.date).getTime()
-        );
-      });
-
-      let releaseCommits = [];
 
       for (const commit of orderedCommits) {
         if (commit.sha.substring(0, 7) === previousReleaseSha) {
           break;
         }
 
-        releaseCommits.push(
-          `* ${commit.sha.substring(0, 7)} ${commit.commit.message}`
-        );
+        releaseCommits.push(getCommitSummary(commit));
       }
-
-      releaseBody = releaseCommits.join("\n");
     } else {
-      releaseBody = "Initial release";
+      for (const commit of orderedCommits) {
+        releaseCommits.push(getCommitSummary(commit));
+      }
     }
+
+    const releaseBody = releaseCommits.join("\n");
 
     const shortSha = context.sha.substring(0, 7);
 
