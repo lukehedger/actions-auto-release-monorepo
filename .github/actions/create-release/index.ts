@@ -55,7 +55,10 @@ const createRelease = async () => {
       const [, previousReleaseSha] = previousRelease.tag_name.match(/-(.*)/);
 
       for (const commit of orderedCommits) {
-        if (commit.sha.substring(0, 7) === previousReleaseSha) {
+        if (
+          new Date(commit.commit.committer.date).getTime() <
+          new Date(previousRelease.published_at).getTime()
+        ) {
           break;
         }
 
